@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadCoins } from '../redux/actions/coinsActions';
 import { logoutUserAction } from '../redux/actions/userActions';
-// import { Formik, Form, Field, ErrorMessage } from "formik";
-// import * as Yup from "yup";
 
 const Coinsults = ({
   logged_in,
