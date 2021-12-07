@@ -69,7 +69,7 @@ const Compartir = () => {
 
       {/* <Dropdown className="rounded flex content-around my-2 mx-2 px-2 py-2 text-indigo-400">
         <Dropdown.Toggle variant="outline-primary" id="dropdown-basic">
-        <i className="fas fa-info-circle"></i>&nbs
+        <i className="fas fa-info-circle"></i>&n
 
         <Dropdown.Menu className="flex flex-col w-full">
           <Dropdown.Item onClick={(id)=> recordCreateAction(id)} className="py-1 inline-block">
