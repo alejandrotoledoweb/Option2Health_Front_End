@@ -98,7 +98,7 @@ export const emptyArticles = () => (dispatch) => {
 //     }
 //   } catch (error) {
 //     dispatch(setError(ActionTypes.SET_ERROR_ARTICLE, error));
-//     console.log('something bad happened in UPDATE user article')
+//     console.log('something bad happened in UPDATE user articl
 //   }
 // }
 
