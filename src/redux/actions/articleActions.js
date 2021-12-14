@@ -94,7 +94,7 @@ export const emptyArticles = () => (dispatch) => {
 //     console.log(response.data)
 //     if (response.data) {
 //       dispatch({ type: ActionTypes.UPDATE_ARTICLE, payload: response.data });
-//       console.log('user articles UPDATED')
+//       console.log('user articles UPDATE
 //     }
 //   } catch (error) {
 //     dispatch(setError(ActionTypes.SET_ERROR_ARTICLE, error));
