@@ -93,7 +93,7 @@ export const emptyArticles = () => (dispatch) => {
 //     });
 //     console.log(response.data)
 //     if (response.data) {
-//       dispatch({ type: ActionTypes.ATE_ARTICLE, paylo
+//       dispatch({ type: ActionTypes
 //     }
 //   } catch (error) {
 //     dispatch(setError(ActionTypes.SET_ERROR_ARTICLE, error));
