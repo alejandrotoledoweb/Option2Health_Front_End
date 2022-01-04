@@ -96,7 +96,7 @@ export const emptyArticles = () => (dispatch) => {
 //       dispatch({ type: ActionTy
 //     }
 //   } catch (error) {
-//     dispatch(setError(ActionTypes
+//     dispatch(setError(ActionTy
 //   }
 // }
 
