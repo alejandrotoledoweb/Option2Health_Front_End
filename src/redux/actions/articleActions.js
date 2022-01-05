@@ -100,7 +100,7 @@ export const emptyArticles = () => (dispatch) => {
 //   }
 // }
 
-// export const emptyArticles = () => (dispatch) => {
+// export const emptyArticles = () => (dispatch
 
 //     dispatch({ type: ActionTypes.EMPTY_ARTICLES});
 // }
