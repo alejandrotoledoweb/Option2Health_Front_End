@@ -1,41 +1,40 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { RegisterAction } from '../redux/actions/userActions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { Link, useHistory } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = ({ RegisterAction, loading, error, status, registered }) => {
-
-  let history = useHistory();
+  let history = useNavigate();
 
   useEffect(() => {
-    console.log(registered)
+    console.log(registered);
     if (registered) {
-      history.push("/login");
+      history.push('/login');
     }
-  }, );
+  });
 
   const initialValues = {
-    name: "",
-    genero: "",
-    ciudad: "",
-    email: "",
-    password: "",
-    nacimiento: "",
-    hijos: "",
-    telefono: "",
+    name: '',
+    genero: '',
+    ciudad: '',
+    email: '',
+    password: '',
+    nacimiento: '',
+    hijos: '',
+    telefono: '',
     paciente: true,
   };
 
   const registerSchema = Yup.object().shape({
-    name: Yup.string().required("Nombre es necesario"),
-    genero: Yup.string().required("Campo es necesario"),
-    ciudad: Yup.string().required("Campo es necesario"),
-    email: Yup.string().required("Correo es necesario"),
-    password: Yup.string().required("Campo es necesario"),
-    nacimiento: Yup.date().required("Fecha es necesaria"),
+    name: Yup.string().required('Nombre es necesario'),
+    genero: Yup.string().required('Campo es necesario'),
+    ciudad: Yup.string().required('Campo es necesario'),
+    email: Yup.string().required('Correo es necesario'),
+    password: Yup.string().required('Campo es necesario'),
+    nacimiento: Yup.date().required('Fecha es necesaria'),
     hijos: Yup.string(),
     telefono: Yup.number().min(9, 'Debe al contener 9 dígitos'),
     paciente: Yup.boolean(),
@@ -58,20 +57,35 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
   };
 
   const message = () =>
-    loading === false && status === "registered" ? (
-      <span className="text-green-600 border rounded border-green-200 mx-2 my-2 px-4 py-4 flex items-center justify-center">Registrado con éxito</span>
+    loading === false && status === 'registered' ? (
+      <span className="text-green-600 border rounded border-green-200 mx-2 my-2 px-4 py-4 flex items-center justify-center">
+        Registrado con éxito
+      </span>
     ) : (
-      <span className="text-red-600 border rounded border-red-200 mx-2 my-2 px-4 py-4 flex items-center justify-center">{error}</span>
+      <span className="text-red-600 border rounded border-red-200 mx-2 my-2 px-4 py-4 flex items-center justify-center">
+        {error}
+      </span>
     );
 
   return (
     <div className="flex justify-center flex-col items-center content-center mb-12">
       <section className="mr-2 ">
-        <Link to="/"><img src="https://option2health.com/assets/img/logo2.png" className="max-w-xs" alt="logo medium"/></Link>
+        <Link to="/">
+          <img
+            src="https://option2health.com/assets/img/logo2.png"
+            className="max-w-xs"
+            alt="logo medium"
+          />
+        </Link>
       </section>
 
       <div className="flex flex-col border border-gray-500 bg-white max-w-screen-lg rounded mx-6 px-8">
-      <p className="border rounded border-indigo-300 mt-4 mx-4 text-center flex items-center justify-center">  <Link to="/" className="font-bold text-indigo-600 w-full my-2"><i className="fas fa-home"></i> Regresa al Inicio</Link></p>
+        <p className="border rounded border-indigo-300 mt-4 mx-4 text-center flex items-center justify-center">
+          {' '}
+          <Link to="/" className="font-bold text-indigo-600 w-full my-2">
+            <i className="fas fa-home"></i> Regresa al Inicio
+          </Link>
+        </p>
         {/* <LoginForm /> */}
         <section>
           <h3 className="text-lg my-4 px-4 font-bold">Registro de Usuario</h3>
@@ -79,9 +93,9 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
             className=""
             initialValues={initialValues}
             validationSchema={registerSchema}
-            onSubmit={(values, {resetForm}) => {
+            onSubmit={(values, { resetForm }) => {
               submitForm(values);
-              resetForm({initialValues: ""})
+              resetForm({ initialValues: '' });
             }}
           >
             {(formik) => {
@@ -91,7 +105,7 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                   <Form>
                     <div className="form-group flex flex-col justify-center">
                       <label htmlFor="name" className="mb-3">
-                      Ingresa tu nombre y apellido
+                        Ingresa tu nombre y apellido
                       </label>
                       <Field
                         type="string"
@@ -99,8 +113,8 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                         id="name"
                         className={`${
                           errors.name && touched.name
-                            ? "is-invalid"
-                            : "is-valid"
+                            ? 'is-invalid'
+                            : 'is-valid'
                         } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 capitalize`}
                         placeholder="Alex Paredes"
                       />
@@ -114,7 +128,7 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
 
                     <div className="form-group flex flex-col justify-center">
                       <label htmlFor="email" className="mb-3">
-                      Ingresa tu correo electrónico
+                        Ingresa tu correo electrónico
                       </label>
                       <Field
                         type="string"
@@ -122,8 +136,8 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                         id="email"
                         className={`${
                           errors.email && touched.email
-                            ? "is-invalid"
-                            : "is-valid"
+                            ? 'is-invalid'
+                            : 'is-valid'
                         } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
                         placeholder="alex@email.com"
                       />
@@ -180,7 +194,6 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                         <option defaultValue>Seleccione el género</option>
                         <option value="Masculino">Masculino</option>
                         <option value="Femenino">Femenino</option>
-
                       </Field>
 
                       <ErrorMessage
@@ -202,7 +215,6 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                         <option defaultValue>Seleccione la opción</option>
                         <option value="SI">SI</option>
                         <option value="NO">NO</option>
-
                       </Field>
 
                       <ErrorMessage
@@ -222,8 +234,8 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                         id="nacimiento"
                         className={`${
                           errors.nacimiento && touched.nacimiento
-                            ? "is-invalid"
-                            : "is-valid"
+                            ? 'is-invalid'
+                            : 'is-valid'
                         } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2`}
                       />
 
@@ -244,8 +256,8 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                         id="telfono"
                         className={`${
                           errors.telefono && touched.telefono
-                            ? "is-invalid"
-                            : "is-valid"
+                            ? 'is-invalid'
+                            : 'is-valid'
                         } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2`}
                       />
 
@@ -266,8 +278,8 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                         id="paciente"
                         className={`${
                           errors.password && touched.password
-                            ? "is-invalid"
-                            : "is-valid"
+                            ? 'is-invalid'
+                            : 'is-valid'
                         } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2`}
                       />
 
@@ -288,8 +300,8 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                         id="password"
                         className={`${
                           errors.password && touched.password
-                            ? "is-invalid"
-                            : "is-valid"
+                            ? 'is-invalid'
+                            : 'is-valid'
                         } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2`}
                       />
 
@@ -304,26 +316,32 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
                       <button
                         type="submit"
                         className={`${
-                          !(dirty && isValid) ? "disabled:opacity-50" : "bg-green-400"
+                          !(dirty && isValid)
+                            ? 'disabled:opacity-50'
+                            : 'bg-green-400'
                         } border rounded  mx-2 my-2 px-2 py-2`}
                         disabled={!(dirty && isValid)}
                       >
                         Registrarse
                       </button>
-                      <p className="flex text-center self-center">&nbsp; Ya tiene cuenta? <Link to="/login" className="font-bold text-indigo-600">&nbsp; Iniciar Sesión</Link></p>
+                      <p className="flex text-center self-center">
+                        &nbsp; Ya tiene cuenta?{' '}
+                        <Link to="/login" className="font-bold text-indigo-600">
+                          &nbsp; Iniciar Sesión
+                        </Link>
+                      </p>
                     </div>
                   </Form>
-                  <div  />
-                  <p className="block">{loading ? "" : message() }</p>
+                  <div />
+                  <p className="block">{loading ? '' : message()}</p>
                 </div>
               );
             }}
-          
           </Formik>
         </section>
       </div>
-  </div>
-  )
+    </div>
+  );
 };
 
 Register.defaultProps = {
@@ -345,7 +363,7 @@ const mapStateToProps = (state) => ({
   loading: state.user.loading,
   error: state.user.error,
   status: state.user.status,
-  registered : state.user.registered,
+  registered: state.user.registered,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -353,5 +371,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
-
-

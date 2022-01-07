@@ -1,19 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../src/styles/index.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-import Routes from "./routes";
+import RoutesFunction from './routes';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from "react-redux";
-import { myStore } from "./redux/store/index";
+import { Provider } from 'react-redux';
+import { myStore } from './redux/store/index';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={myStore}>
-      <Routes />
+      <RoutesFunction />
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
