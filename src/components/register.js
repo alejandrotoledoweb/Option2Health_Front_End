@@ -12,7 +12,7 @@ const Register = ({ RegisterAction, loading, error, status, registered }) => {
   useEffect(() => {
     console.log(registered);
     if (registered) {
-      history.push('/login');
+      history('/login');
     }
   });
 

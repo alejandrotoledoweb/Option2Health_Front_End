@@ -222,10 +222,10 @@ const RoutesFunction = ({
         <div className="inline-block absolute mx-6 justify-center">
           {/* TopBar  */}
 
-          <nav className="border rounded border-gray-200 bg-white flex flex-wrap items-center justify-start lg:justify-around mx-2 pt-4">
+          <nav className="border rounded border-gray-200 bg-white flex flex-wrap items-center justify-start lg:justify-around mx-2 py-4">
             <button
               onClick={() => setShow(!show)}
-              className="lg:hidden rounded px-2 py-2 focus:bg-indigo-600 focus:outline-none hover:bg-indigo-600 hover:text-white mx-2"
+              className="lg:hidden rounded px-2 py-2 focus:bg-indigo-600 focus:outline-none hover:bg-indigo-600 hover:text-white mx-4 my-2"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -266,13 +266,13 @@ const RoutesFunction = ({
                               errors.title && touched.title
                                 ? 'is-invalid'
                                 : 'is-valid'
-                            } form-control border rounded bg-gray-200 mx-2 mt-2 mb-2 py-2 px-1`}
+                            } form-control border rounded bg-gray-200 mx-2 my-2 py-2 px-1`}
                           />
 
                           <ErrorMessage
                             name="title"
                             component="span"
-                            className="text-red-600 text-center mt-2 mb-4"
+                            className="text-red-600 text-center my-4"
                           />
                         </div>
 
@@ -283,14 +283,14 @@ const RoutesFunction = ({
                               !(dirty && isValid)
                                 ? 'disabled:opacity-50'
                                 : 'bg-green-400'
-                            } border rounded  mx-2 mt-2 my-2 px-2 py-2 inline-block`}
+                            } border rounded  mx-2 my-2 px-2 py-2 inline-block`}
                             disabled={!(dirty && isValid)}
                           >
                             Buscar
                           </button>
                         </div>
                       </Form>
-                      <div className="mt-3" />
+                      {/* <div className="my-2" /> */}
                       {/* <p>{loading ? "" : message()}</p> */}
                     </div>
                   );
@@ -298,13 +298,16 @@ const RoutesFunction = ({
               </Formik>
             </div>
 
-            <p className="text-indigo-500 py-2 mx-2 ">
+            <p className="text-indigo-500 py-2 mx-6 ">
               {logged_in && medico ? (
                 <div>
                   <Link to="/perfilmedico">
                     Bienvenido Doctor/a : {user.name}
                   </Link>{' '}
-                  <button onClick={() => logout(user.id)} className="mx-4 my-4">
+                  <button
+                    onClick={() => logout(user.id)}
+                    className="ml-6 my-4 font-bold text-red-400"
+                  >
                     Logout
                   </button>
                 </div>
@@ -313,19 +316,25 @@ const RoutesFunction = ({
                   <Link to="/perfilempresa">
                     Bienvenido Empresa : {user.name}
                   </Link>{' '}
-                  <button onClick={() => logout(user.id)} className="mx-4 my-4">
+                  <button
+                    onClick={() => logout(user.id)}
+                    className="ml-6 my-4 font-bold text-red-400"
+                  >
                     Logout
                   </button>
                 </div>
               ) : logged_in ? (
                 <div>
-                  <Link to="/perfil">Bienvenido Usuario : {user.name}</Link>{' '}
-                  <button onClick={() => logout(user.id)} className="mx-4 my-4">
+                  <Link to="/perfil">Bienvenido Usuario: {user.name}</Link>{' '}
+                  <button
+                    onClick={() => logout(user.id)}
+                    className="ml-6 my-4 font-bold text-red-400"
+                  >
                     Logout
                   </button>
                 </div>
               ) : (
-                <Link to="/login" className="mx-4 my-4">
+                <Link to="/login" className="mx-4 my-4 font-bold">
                   ¿Listo para tomar el control de tu salud y de los demás?
                   INGRESA AQUÍ
                 </Link>
