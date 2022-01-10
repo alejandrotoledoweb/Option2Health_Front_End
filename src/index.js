@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../src/styles/index.css';
+import '@themesberg/flowbite';
 import RoutesFunction from './routes';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';

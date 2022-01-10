@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUserAction } from './redux/actions/userActions';
+import '@themesberg/flowbite';
 
 const RoutesFunction = ({
   logged_in,

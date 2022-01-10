@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import '../styles/App.css';
-// import Vermas  from './buttons/ver_mas';
+import Vermas from './buttons/ver_mas';
 import MeGusta from './buttons/meGusta';
 import Compartir from './buttons/compartir';
 import { searchArticles } from '../redux/actions/articleActions';
@@ -10,7 +10,6 @@ import { logoutUserAction } from '../redux/actions/userActions';
 import Spinner from './spinner';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Dropdown from 'react-bootstrap/Dropdown';
 
 const App = ({
   searchArticles,
@@ -102,7 +101,9 @@ const App = ({
                 />
                 <Compartir />
 
-                <Dropdown className="rounded flex content-around my-2 mx-2 px-2 py-2 text-indigo-400">
+                <Vermas createRecord={createRecord} arId={ar.id} />
+
+                {/* <Dropdown className="rounded flex content-around my-2 mx-2 px-2 py-2 text-indigo-400">
                   <Dropdown.Toggle
                     variant="outline-primary"
                     id="dropdown-basic"
@@ -130,12 +131,12 @@ const App = ({
                         />
                       </svg>
                       &nbsp; Guardar
-                    </Dropdown.Item>
-                    {/* <Dropdown.Item href="#/action-3" className="flex py-1">
+                    </Dropdown.Item> */}
+                {/* <Dropdown.Item href="#/action-3" className="flex py-1">
                       <i class="fab fa-whatsapp"> </i>
                       &nbsp;  Whatsapp
                     </Dropdown.Item> */}
-                    {/* <Dropdown.Item href="#/action-2" className="flex py-1">
+                {/* <Dropdown.Item href="#/action-2" className="flex py-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                     </svg>
@@ -146,9 +147,9 @@ const App = ({
                     &nbsp; Contacto Whatsapp
                   </Dropdown.Item>
                   </Dropdown.Menu> */}
-                    {/* </Dropdown>  */}
-                  </Dropdown.Menu>
-                </Dropdown>
+                {/* </Dropdown>  */}
+                {/* </Dropdown.Menu>
+                </Dropdown> */}
                 <div className="relative">
                   {/* <button className="text-indigo-500 inline-flex items-center justify-center rounded-md border border-indigo-300 shadow px-4 py-2 bg-white text-md font-medium hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-300 focus:text-white focus:bg-indigo-600" onClick={() => setIsOpen(!isOpen)}>
                     <i className="fas fa-info-circle"></i>&nbsp;Ver más
