@@ -6,11 +6,11 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 const Vermas = ({ createRecord, arId }) => {
   return (
     <>
-      <div className="text-right z-10">
+      <div className="text-right z-10 mx-2">
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button className="inline-flex justify-center w-full font-medium rounded border-2 flex items-center content-around my-2 mx-2 px-2 py-2 border-indigo-500 text-white bg-indigo-500 hover:bg-indigo-400 active:bg-indigo-600">
-              Options
+            <Menu.Button className="inline-flex justify-center w-full font-medium rounded border-2 flex items-center content-around my-2 px-2 py-2 border-indigo-500 text-white bg-indigo-500 hover:bg-indigo-400 active:bg-indigo-600">
+              <i className="fas fa-info-circle"></i>&nbsp; Ver más
               <ChevronDownIcon
                 className="w-5 h-5 ml-2 -mr-1 text-white"
                 aria-hidden="true"
