@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,8 +11,6 @@ import {
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import FormikControl from './formik/FormikControl';
-import Modal from 'react-bootstrap/Modal';
-// import Button from "react-bootstrap/Button";
 
 const ArticulosMedico = ({
   logged_in,
@@ -22,7 +21,6 @@ const ArticulosMedico = ({
   medico,
   empresa,
 }) => {
-  const [showForm, setShowForm] = useState(false);
   const [arid, setArid] = useState(0);
   const [title, setTitle] = useState('');
   const [areas, setAreas] = useState('');
@@ -38,8 +36,15 @@ const ArticulosMedico = ({
   const [diagnostico, setDiagnostico] = useState('');
   const [enfermedades_relacionales, setEnfermedades] = useState('');
 
-  const handleShow = () => setShowForm(true);
-  const handleClose = () => setShowForm(false);
+  let [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
 
   useEffect(() => {
     getUserArticles();
@@ -92,7 +97,7 @@ const ArticulosMedico = ({
     setTratamiento(tratamientof);
     setDiagnostico(diagnosticof);
     setEnfermedades(enfermedades_rel);
-    handleShow();
+    openModal();
   };
 
   const publicacionSchema = Yup.object().shape({
@@ -130,7 +135,7 @@ const ArticulosMedico = ({
     };
     console.log(data);
     updatePublicacion(data);
-    handleClose();
+    closeModal();
     getUserArticles();
     // arStatus === "created" ? resetForm({initialValues: ""}) : setModalError(true);
   };
@@ -234,343 +239,398 @@ const ArticulosMedico = ({
           : null}
       </section>
 
-      <section className="w-full">
-        <Modal show={showForm} animation={true} onHide={handleClose}>
-          <Modal.Header>
-            <Modal.Title>Update Form</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Formik
-              className="w-full"
-              initialValues={initialValuesPublicacion}
-              validationSchema={publicacionSchema}
-              onSubmit={(values) => {
-                submitForm(values);
-              }}
-            >
-              {(formik) => {
-                const { errors, touched, isValid, dirty } = formik;
-                return (
-                  <div className="">
-                    <Form>
-                      {/* FORM 1 */}
-                      <section className="block mx-4 pt-4 rounded ">
-                        <p className="rounded mx-8 my-4 px-4 py-2 text-white bg-indigo-500 w-3/5">
-                          1. Primer paso
-                        </p>
-                        <div className="form-group flex flex-col justify-center">
-                          <label htmlFor="title" className="mb-1 mt-3 mx-2">
-                            Ingresa el título de la publicación:(*)
-                          </label>
-                          <Field
-                            type="string"
-                            name="title"
-                            id="title"
-                            className={`${
-                              errors.title && touched.title
-                                ? 'is-invalid'
-                                : 'is-valid'
-                            } form-control border rounded bg-gray-200 mx-2 my-4 py-2 px-2`}
-                            placeholder="Problemas de sueño"
-                          />
+      <div>
+        <Transition appear show={isOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="fixed inset-0 z-10 overflow-y-auto"
+            onClose={closeModal}
+          >
+            <div className="min-h-screen px-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0" />
+              </Transition.Child>
 
-                          <ErrorMessage
-                            name="title"
-                            component="span"
-                            className="text-red-600 text-center mt-2 mb-4"
-                          />
-                        </div>
+              {/* This element is to trick the browser into centering the modal contents. */}
+              <span
+                className="inline-block h-screen align-middle"
+                aria-hidden="true"
+              >
+                &#8203;
+              </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Edita la publicación
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <Formik
+                      className="w-full"
+                      initialValues={initialValuesPublicacion}
+                      validationSchema={publicacionSchema}
+                      onSubmit={(values) => {
+                        submitForm(values);
+                      }}
+                    >
+                      {(formik) => {
+                        const { errors, touched, isValid, dirty } = formik;
+                        return (
+                          <div className="">
+                            <Form>
+                              {/* FORM 1 */}
+                              <section className="block mx-4 pt-4 rounded ">
+                                <p className="rounded mx-8 my-4 px-4 py-2 text-white bg-indigo-500 w-3/5">
+                                  1. Primer paso
+                                </p>
+                                <div className="form-group flex flex-col justify-center">
+                                  <label
+                                    htmlFor="title"
+                                    className="mb-1 mt-3 mx-2"
+                                  >
+                                    Ingresa el título de la publicación:(*)
+                                  </label>
+                                  <Field
+                                    type="string"
+                                    name="title"
+                                    id="title"
+                                    className={`${
+                                      errors.title && touched.title
+                                        ? 'is-invalid'
+                                        : 'is-valid'
+                                    } form-control border rounded bg-gray-200 mx-2 my-4 py-2 px-2`}
+                                    placeholder="Problemas de sueño"
+                                  />
 
-                        <div className="form-group flex flex-col justify-center">
-                          <label htmlFor="areas" className="mb-1 mt-3 mx-2">
-                            Áreas directas o indirectas relacionadas con la
-                            enfermedad:(*)
-                          </label>
-                          <Field
-                            type="string"
-                            name="areas"
-                            id="areas"
-                            className={`${
-                              errors.areas && touched.areas
-                                ? 'is-invalid'
-                                : 'is-valid'
-                            } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
-                            placeholder="Neurología, Dermatología"
-                          />
+                                  <ErrorMessage
+                                    name="title"
+                                    component="span"
+                                    className="text-red-600 text-center mt-2 mb-4"
+                                  />
+                                </div>
 
-                          <ErrorMessage
-                            name="areas"
-                            component="span"
-                            className="text-red-600 text-center mt-2 mb-4"
-                          />
-                        </div>
+                                <div className="form-group flex flex-col justify-center">
+                                  <label
+                                    htmlFor="areas"
+                                    className="mb-1 mt-3 mx-2"
+                                  >
+                                    Áreas directas o indirectas relacionadas con
+                                    la enfermedad:(*)
+                                  </label>
+                                  <Field
+                                    type="string"
+                                    name="areas"
+                                    id="areas"
+                                    className={`${
+                                      errors.areas && touched.areas
+                                        ? 'is-invalid'
+                                        : 'is-valid'
+                                    } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
+                                    placeholder="Neurología, Dermatología"
+                                  />
 
-                        <div className="form-group flex flex-col justify-center">
-                          <label htmlFor="video" className="mb-1 mt-3 mx-2">
-                            Enlace de video en Youtube:(*)
-                            <br /> 1. Haz click en compartir en la página del
-                            video.
-                            <br />
-                            2. Copia el link que te proporciona Youtube.
-                            <br />
-                            3. Pegalo aquí.
-                            <br />
-                            4. Debe verse algo así. Ej.:
-                            "https://youtu.be/XNpBVXJry8I"
-                            <br />
-                            5. Ingresa la palabra "embed" antes del código. Ej.:
-                            "/embed/XNpBVXJry8I"
-                            <br />
-                            6. Listo, Gracias!
-                          </label>
-                          <Field
-                            type="string"
-                            name="video"
-                            id="video"
-                            className={`${
-                              errors.video && touched.video
-                                ? 'is-invalid'
-                                : 'is-valid'
-                            } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
-                            placeholder="https://youtu.be/embed/XNpBVXJry8I"
-                          />
+                                  <ErrorMessage
+                                    name="areas"
+                                    component="span"
+                                    className="text-red-600 text-center mt-2 mb-4"
+                                  />
+                                </div>
 
-                          <ErrorMessage
-                            name="video"
-                            component="span"
-                            className="text-red-600 text-center mt-2 mb-4"
-                          />
-                        </div>
+                                <div className="form-group flex flex-col justify-center">
+                                  <label
+                                    htmlFor="video"
+                                    className="mb-1 mt-3 mx-2"
+                                  >
+                                    Enlace de video en Youtube:(*)
+                                    <br /> 1. Haz click en compartir en la
+                                    página del video.
+                                    <br />
+                                    2. Copia el link que te proporciona Youtube.
+                                    <br />
+                                    3. Pegalo aquí.
+                                    <br />
+                                    4. Debe verse algo así. Ej.:
+                                    "https://youtu.be/XNpBVXJry8I"
+                                    <br />
+                                    5. Ingresa la palabra "embed" antes del
+                                    código. Ej.: "/embed/XNpBVXJry8I"
+                                    <br />
+                                    6. Listo, Gracias!
+                                  </label>
+                                  <Field
+                                    type="string"
+                                    name="video"
+                                    id="video"
+                                    className={`${
+                                      errors.video && touched.video
+                                        ? 'is-invalid'
+                                        : 'is-valid'
+                                    } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
+                                    placeholder="https://youtu.be/embed/XNpBVXJry8I"
+                                  />
 
-                        <div className="form-control ">
-                          <FormikControl
-                            control="textarea"
-                            label="Texto a presentar en la publicación:"
-                            name="description"
-                            id="description"
-                            className="bg-gray-200"
-                          />
-                          <ErrorMessage
-                            name="description"
-                            component="span"
-                            className="text-red-600 mt-2 mb-4 flex justify-center"
-                          />
-                        </div>
+                                  <ErrorMessage
+                                    name="video"
+                                    component="span"
+                                    className="text-red-600 text-center mt-2 mb-4"
+                                  />
+                                </div>
 
-                        <div className="form-group flex flex-col justify-center">
-                          <label
-                            htmlFor="information"
-                            className="mb-1 mt-3 mx-2"
-                          >
-                            Enlace para más información sobre la publicación:(*)
-                          </label>
-                          <Field
-                            type="string"
-                            name="information"
-                            id="information"
-                            className={`${
-                              errors.information && touched.information
-                                ? 'is-invalid'
-                                : 'is-valid'
-                            } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
-                            placeholder="informacion"
-                          />
+                                <div className="form-control ">
+                                  <FormikControl
+                                    control="textarea"
+                                    label="Texto a presentar en la publicación:"
+                                    name="description"
+                                    id="description"
+                                    className="bg-gray-200"
+                                  />
+                                  <ErrorMessage
+                                    name="description"
+                                    component="span"
+                                    className="text-red-600 mt-2 mb-4 flex justify-center"
+                                  />
+                                </div>
 
-                          <ErrorMessage
-                            name="information"
-                            component="span"
-                            className="text-red-600 text-center mt-2 mb-4"
-                          />
-                        </div>
-                        <p className="rounded mx-8 my-4 px-4 py-2 text-white bg-indigo-500 w-3/5">
-                          2. Segundo paso
-                        </p>
+                                <div className="form-group flex flex-col justify-center">
+                                  <label
+                                    htmlFor="information"
+                                    className="mb-1 mt-3 mx-2"
+                                  >
+                                    Enlace para más información sobre la
+                                    publicación:(*)
+                                  </label>
+                                  <Field
+                                    type="string"
+                                    name="information"
+                                    id="information"
+                                    className={`${
+                                      errors.information && touched.information
+                                        ? 'is-invalid'
+                                        : 'is-valid'
+                                    } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
+                                    placeholder="informacion"
+                                  />
 
-                        <div className="form-group flex flex-col justify-center">
-                          <label htmlFor="genero" className="mb-1 mt-3 mx-2">
-                            Esta enfermedad afecta a que género:(*)
-                          </label>
-                          <Field
-                            type="string"
-                            name="genero"
-                            id="genero"
-                            className={`${
-                              errors.genero && touched.genero
-                                ? 'is-invalid'
-                                : 'is-valid'
-                            } form-control border rounded bg-gray-200 mx-2 my-4 py-2 px-2`}
-                            placeholder="hombres, mujeres, ambos generos"
-                          />
+                                  <ErrorMessage
+                                    name="information"
+                                    component="span"
+                                    className="text-red-600 text-center mt-2 mb-4"
+                                  />
+                                </div>
+                                <p className="rounded mx-8 my-4 px-4 py-2 text-white bg-indigo-500 w-3/5">
+                                  2. Segundo paso
+                                </p>
 
-                          <ErrorMessage
-                            name="genero"
-                            component="span"
-                            className="text-red-600 text-center mt-2 mb-4"
-                          />
-                        </div>
+                                <div className="form-group flex flex-col justify-center">
+                                  <label
+                                    htmlFor="genero"
+                                    className="mb-1 mt-3 mx-2"
+                                  >
+                                    Esta enfermedad afecta a que género:(*)
+                                  </label>
+                                  <Field
+                                    type="string"
+                                    name="genero"
+                                    id="genero"
+                                    className={`${
+                                      errors.genero && touched.genero
+                                        ? 'is-invalid'
+                                        : 'is-valid'
+                                    } form-control border rounded bg-gray-200 mx-2 my-4 py-2 px-2`}
+                                    placeholder="hombres, mujeres, ambos generos"
+                                  />
 
-                        <div className="form-group flex flex-col justify-center">
-                          <label
-                            htmlFor="edad_inicial"
-                            className="mb-1 mt-3 mx-2"
-                          >
-                            Edad inicial que inicia la enfermedad:(*)
-                          </label>
-                          <Field
-                            type="number"
-                            name="edad_inicial"
-                            id="edad_inicial"
-                            className={`${
-                              errors.edad_inicial && touched.edad_inicial
-                                ? 'is-invalid'
-                                : 'is-valid'
-                            } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
-                            placeholder="17"
-                          />
+                                  <ErrorMessage
+                                    name="genero"
+                                    component="span"
+                                    className="text-red-600 text-center mt-2 mb-4"
+                                  />
+                                </div>
 
-                          <ErrorMessage
-                            name="edad_inicial"
-                            component="span"
-                            className="text-red-600 text-center mt-2 mb-4"
-                          />
-                        </div>
+                                <div className="form-group flex flex-col justify-center">
+                                  <label
+                                    htmlFor="edad_inicial"
+                                    className="mb-1 mt-3 mx-2"
+                                  >
+                                    Edad inicial que inicia la enfermedad:(*)
+                                  </label>
+                                  <Field
+                                    type="number"
+                                    name="edad_inicial"
+                                    id="edad_inicial"
+                                    className={`${
+                                      errors.edad_inicial &&
+                                      touched.edad_inicial
+                                        ? 'is-invalid'
+                                        : 'is-valid'
+                                    } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
+                                    placeholder="17"
+                                  />
 
-                        <div className="form-group flex flex-col justify-center">
-                          <label
-                            htmlFor="edad_final"
-                            className="mb-1 mt-3 mx-2"
-                          >
-                            Edad final que se estima la enfermedad:(*)
-                          </label>
-                          <Field
-                            type="number"
-                            name="edad_final"
-                            id="edad_final"
-                            className={`${
-                              errors.edad_final && touched.edad_final
-                                ? 'is-invalid'
-                                : 'is-valid'
-                            } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
-                            placeholder="85"
-                          />
+                                  <ErrorMessage
+                                    name="edad_inicial"
+                                    component="span"
+                                    className="text-red-600 text-center mt-2 mb-4"
+                                  />
+                                </div>
 
-                          <ErrorMessage
-                            name="edad_final"
-                            component="span"
-                            className="text-red-600 text-center mt-2 mb-4"
-                          />
-                        </div>
+                                <div className="form-group flex flex-col justify-center">
+                                  <label
+                                    htmlFor="edad_final"
+                                    className="mb-1 mt-3 mx-2"
+                                  >
+                                    Edad final que se estima la enfermedad:(*)
+                                  </label>
+                                  <Field
+                                    type="number"
+                                    name="edad_final"
+                                    id="edad_final"
+                                    className={`${
+                                      errors.edad_final && touched.edad_final
+                                        ? 'is-invalid'
+                                        : 'is-valid'
+                                    } form-control border rounded bg-gray-200 mx-2 mt-4 mb-4 py-2 px-2 lowercase`}
+                                    placeholder="85"
+                                  />
 
-                        <div className=" ">
-                          <FormikControl
-                            control="textarea"
-                            label="Síntomas que se presentan:(*)"
-                            name="sintomas"
-                            id="sintomas"
-                            className="bg-gray-200"
-                          />
-                          <ErrorMessage
-                            name="sintomas"
-                            component="span"
-                            className="text-red-600 mt-2 mb-4 flex justify-center"
-                          />
-                        </div>
+                                  <ErrorMessage
+                                    name="edad_final"
+                                    component="span"
+                                    className="text-red-600 text-center mt-2 mb-4"
+                                  />
+                                </div>
 
-                        <div className="">
-                          <p className="rounded mx-8 my-4 px-4 py-2 text-white bg-indigo-500 w-3/5">
-                            3. Tercer paso
-                          </p>
-                          <FormikControl
-                            control="textarea"
-                            label="Causas de la enfermedad:"
-                            name="causas"
-                            id="causas"
-                            className="bg-gray-200"
-                          />
-                          <ErrorMessage
-                            name="causas"
-                            component="span"
-                            className="text-red-600 mt-2 mb-4 flex justify-center"
-                          />
-                        </div>
+                                <div className=" ">
+                                  <FormikControl
+                                    control="textarea"
+                                    label="Síntomas que se presentan:(*)"
+                                    name="sintomas"
+                                    id="sintomas"
+                                    className="bg-gray-200"
+                                  />
+                                  <ErrorMessage
+                                    name="sintomas"
+                                    component="span"
+                                    className="text-red-600 mt-2 mb-4 flex justify-center"
+                                  />
+                                </div>
 
-                        <div className=" ">
-                          <FormikControl
-                            control="textarea"
-                            label="Tratamiento:"
-                            name="tratamiento"
-                            id="tratamiento"
-                            className="bg-gray-200"
-                          />
-                          <ErrorMessage
-                            name="tratamiento"
-                            component="span"
-                            className="text-red-600 mt-2 mb-4 flex justify-center"
-                          />
-                        </div>
+                                <div className="">
+                                  <p className="rounded mx-8 my-4 px-4 py-2 text-white bg-indigo-500 w-3/5">
+                                    3. Tercer paso
+                                  </p>
+                                  <FormikControl
+                                    control="textarea"
+                                    label="Causas de la enfermedad:"
+                                    name="causas"
+                                    id="causas"
+                                    className="bg-gray-200"
+                                  />
+                                  <ErrorMessage
+                                    name="causas"
+                                    component="span"
+                                    className="text-red-600 mt-2 mb-4 flex justify-center"
+                                  />
+                                </div>
 
-                        <div className="">
-                          <FormikControl
-                            control="textarea"
-                            label="Diagnóstico de la enfermedad:"
-                            name="diagnostico"
-                            id="diagnostico"
-                            className="bg-gray-200"
-                          />
-                          <ErrorMessage
-                            name="diagnostico"
-                            component="span"
-                            className="text-red-600 mt-2 mb-4 flex justify-center"
-                          />
-                        </div>
+                                <div className=" ">
+                                  <FormikControl
+                                    control="textarea"
+                                    label="Tratamiento:"
+                                    name="tratamiento"
+                                    id="tratamiento"
+                                    className="bg-gray-200"
+                                  />
+                                  <ErrorMessage
+                                    name="tratamiento"
+                                    component="span"
+                                    className="text-red-600 mt-2 mb-4 flex justify-center"
+                                  />
+                                </div>
 
-                        <div className="">
-                          <FormikControl
-                            control="textarea"
-                            label="Enfermedades relacionadas:"
-                            name="enfermedades_relacionales"
-                            id="enfermedades_relacionales"
-                            className="bg-gray-200"
-                          />
-                          <ErrorMessage
-                            name="enfermedades_relacionales"
-                            component="span"
-                            className="text-red-600 mt-2 mb-4 flex justify-center"
-                          />
-                        </div>
+                                <div className="">
+                                  <FormikControl
+                                    control="textarea"
+                                    label="Diagnóstico de la enfermedad:"
+                                    name="diagnostico"
+                                    id="diagnostico"
+                                    className="bg-gray-200"
+                                  />
+                                  <ErrorMessage
+                                    name="diagnostico"
+                                    component="span"
+                                    className="text-red-600 mt-2 mb-4 flex justify-center"
+                                  />
+                                </div>
 
-                        <div className="grid justify-items-end">
-                          <button
-                            type="submit"
-                            className={`${
-                              !(dirty && isValid)
-                                ? 'disabled:opacity-50'
-                                : 'text-white bg-green-400 hover:text-white hover:bg-indigo-300'
-                            } border rounded border-indigo-600 text-indigo-700 w-2/5 py-2 mx-4 mt-4 hover:text-white hover:bg-indigo-300`}
-                            disabled={!(dirty && isValid)}
-                          >
-                            Guardar y Actualizar
-                          </button>
-                        </div>
-                      </section>
-                    </Form>
-                    <div className="grid justify-items-end mx-4 py-1">
-                      <button
-                        onClick={handleClose}
-                        className="border rounded border-indigo-600 text-indigo-700 w-2/5 py-2 mx-4  my-4 hover:text-black hover:bg-gray-300"
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                    <div />
+                                <div className="">
+                                  <FormikControl
+                                    control="textarea"
+                                    label="Enfermedades relacionadas:"
+                                    name="enfermedades_relacionales"
+                                    id="enfermedades_relacionales"
+                                    className="bg-gray-200"
+                                  />
+                                  <ErrorMessage
+                                    name="enfermedades_relacionales"
+                                    component="span"
+                                    className="text-red-600 mt-2 mb-4 flex justify-center"
+                                  />
+                                </div>
+
+                                <div className="grid justify-items-end">
+                                  <button
+                                    type="submit"
+                                    className={`${
+                                      !(dirty && isValid)
+                                        ? 'disabled:opacity-50'
+                                        : 'text-white bg-green-400 hover:text-white hover:bg-indigo-300'
+                                    } border rounded border-indigo-600 text-indigo-700 w-2/5 py-2 mx-4 mt-4 hover:text-white hover:bg-indigo-300`}
+                                    disabled={!(dirty && isValid)}
+                                  >
+                                    Guardar y Actualizar
+                                  </button>
+                                </div>
+                              </section>
+                            </Form>
+                            <div className="grid justify-items-end mx-4 py-1">
+                              <button
+                                onClick={closeModal}
+                                className="border rounded border-indigo-600 text-indigo-700 w-2/5 py-2 mx-4  my-4 hover:text-black hover:bg-gray-300"
+                              >
+                                Cancelar
+                              </button>
+                            </div>
+                            <div />
+                          </div>
+                        );
+                      }}
+                    </Formik>
                   </div>
-                );
-              }}
-            </Formik>
-          </Modal.Body>
-          <Modal.Footer></Modal.Footer>
-        </Modal>
-      </section>
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
+      </div>
     </div>
   );
 };
