@@ -3,7 +3,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 
-const Compartir = ({ createRecord, arId }) => {
+const Compartir = () => {
   return (
     <>
       <div className="text-right z-10 mx-2">
