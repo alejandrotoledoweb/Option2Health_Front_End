@@ -34,7 +34,7 @@ const Ayudar = ({
   // const [tratamiento, setTratamiento] = useState("");
   // const [medicos, setMedicos] = useState("");
 
-  let [isOpen, setIsOpen] = useState(true);
+  let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
